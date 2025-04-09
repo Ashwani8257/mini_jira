@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="Task_new")
+@EntityListeners(AuditingEntityListener.class)
 public class Task {
 
     @Id
@@ -19,9 +20,25 @@ public class Task {
     private Long id;
 
     private String title;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User assignedTo;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedBy
+    private String updatedBy;
 
     // --- Enum declared inside the class ---
     public enum TaskStatus {
@@ -29,9 +46,6 @@ public class Task {
         IN_PROGRESS,
         DONE
     }
-
-    // --- Getters and Setters ---
-
 
     public Long getId() {
         return id;
@@ -49,11 +63,51 @@ public class Task {
         this.title = title;
     }
 
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
     public User getAssignedTo() {
         return assignedTo;
     }
 
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 }

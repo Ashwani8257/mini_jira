@@ -25,11 +25,20 @@ public class TaskService
     }
 
     public Task updateTask(Long id, Task updatedTask) {
+
+
+        // Convert string to enum using valueOf
+
         Optional<Task> optionalTask = taskRepository.findById(id);
+        String statusString = String.valueOf(updatedTask.getStatus());
+
+        // Convert string to enum
+        Task.TaskStatus newStatus = Task.TaskStatus.valueOf(statusString);
+
         if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
             task.setTitle(updatedTask.getTitle());
-
+            task.setStatus(newStatus);
 
             return taskRepository.save(task);
         } else {
