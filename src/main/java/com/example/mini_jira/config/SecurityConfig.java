@@ -42,7 +42,7 @@ public class SecurityConfig
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/admin/**","/user/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")
-                        .requestMatchers("/register/**","/login","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/register/**","/login","/swagger-ui/**", "/v3/api-docs/**","/").permitAll()
                         .anyRequest().authenticated())
 
               // .httpBasic(Customizer.withDefaults())
