@@ -38,51 +38,51 @@ public class UserController
     @Autowired
     AuthenticationManager authenticationManager;
 
-//    @PostMapping("login")
-//    public String login(@RequestBody User user) {
-//
-//        Authentication authentication = authenticationManager
-//                .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-//
-//        if (authentication.isAuthenticated())
-//            return jwtService.generateToken(user.getUsername());
-//        else
-//            return "Login Failed";
-//    }
-@PostMapping("login")
-public ResponseEntity<?> login(@RequestBody User user) {
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-    );
+    @PostMapping("login")
+    public String login(@RequestBody User user) {
 
-    if (authentication.isAuthenticated()) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
-        String username = userDetails.getUsername();
-
-        List<String> roles = userDetails.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-      //  String token = jwtService.generateToken(username);
-
-        //  Print values for debugging
-        System.out.println("Username: " + username);
-        System.out.println("Roles: " + roles);
-     //   System.out.println("Token: " + token);
-
-        Map<String, Object> response = new HashMap<>();
-     //   response.put("token", token);
-        response.put("username", username);
-        response.put("roles", roles);
-
-        return ResponseEntity.ok(response);
-    } else {
-        System.out.println("Login failed for user: " + user.getUsername());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login Failed");
+        if (authentication.isAuthenticated())
+            return jwtService.generateToken(user.getUsername());
+        else
+            return "Login Failed";
     }
-}
+//@PostMapping("login")
+//public ResponseEntity<?> login(@RequestBody User user) {
+//    Authentication authentication = authenticationManager.authenticate(
+//            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+//    );
+//
+//    if (authentication.isAuthenticated()) {
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//        String username = userDetails.getUsername();
+//
+//        List<String> roles = userDetails.getAuthorities()
+//                .stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .collect(Collectors.toList());
+//
+//        String token = jwtService.generateToken(username);
+//
+//        //  Print values for debugging
+//        System.out.println("Username: " + username);
+//        System.out.println("Roles: " + roles);
+//        System.out.println("Token: " + token);
+//
+//        Map<String, Object> response = new HashMap<>();
+//     //   response.put("token", token);
+//        response.put("username", username);
+//        response.put("roles", roles);
+//
+//        return ResponseEntity.ok(response);
+//    } else {
+//        System.out.println("Login failed for user: " + user.getUsername());
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login Failed");
+//    }
+//}
     @GetMapping("/")
     public String hello(HttpServletRequest request)
     {
