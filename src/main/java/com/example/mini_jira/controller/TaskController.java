@@ -1,12 +1,14 @@
 package com.example.mini_jira.controller;
 
 import com.example.mini_jira.entity.Task;
+import com.example.mini_jira.entity.TaskRequestDTO;
 import com.example.mini_jira.repository.TaskRepository;
 import com.example.mini_jira.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,11 +32,10 @@ public class TaskController
         }
         return taskRepository.findAll(pageable);
     }
-
-
     @PostMapping("/create/task")
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody TaskRequestDTO dto) {
+        Task savedTask = taskService.createTask(dto);
+        return ResponseEntity.ok(savedTask);
     }
 
     @PutMapping("/{id}")
